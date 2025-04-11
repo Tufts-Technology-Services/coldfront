@@ -64,23 +64,24 @@ class LDAPUserSearch(UserSearch):
         attrs = get_config_parameter("ATTRIBUTES_EXCLUDED_FROM_CHECK")
         attrs.extend(ldap_attrs)
         set_config_parameter("ATTRIBUTES_EXCLUDED_FROM_CHECK", attrs)
+        UID_NUMBER_EXISTS = '(uidNumber=*)'
         if user_search_string and search_by == 'all_fields':
             filter = ldap.filter.filter_format(
-                f"(|({ldap_attrs[0]}=*%s*)({ldap_attrs[1]}=*%s*)({ldap_attrs[2]}=*%s*)({ldap_attrs[3]}=*%s*))",
+                f"(&{UID_NUMBER_EXISTS}(|({ldap_attrs[0]}=*%s*)({ldap_attrs[1]}=*%s*)({ldap_attrs[2]}=*%s*)({ldap_attrs[3]}=*%s*)))",
                 [user_search_string] * 4)
         elif user_search_string and search_by == 'username_only':
             attr = self.USERNAME_ONLY_ATTR
             filter = ldap.filter.filter_format(
-                f"({self.ATTRIBUTE_MAP[attr]}=%s)", [user_search_string]
+                f"(&{UID_NUMBER_EXISTS}({self.ATTRIBUTE_MAP[attr]}=%s))", [user_search_string]
             )
             size_limit = 1
         elif user_search_string and search_by in self.ATTRIBUTE_MAP.keys():
             filter = ldap.filter.filter_format(
-                f"({self.ATTRIBUTE_MAP[search_by]}=%s)", [user_search_string]
+                f"(&{UID_NUMBER_EXISTS}({self.ATTRIBUTE_MAP[search_by]}=%s))", [user_search_string]
             )
             size_limit = 1
         else:
-            filter = '(objectclass=person)'
+            filter = f'(&{UID_NUMBER_EXISTS}(objectclass=person))'
 
         searchParameters = {'search_base': self.LDAP_USER_SEARCH_BASE,
                             'search_filter': filter,

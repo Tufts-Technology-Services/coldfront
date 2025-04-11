@@ -1,49 +1,37 @@
 import logging
 import os
 import sys
-import dbus
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
-from ipalib import api
-from ipalib.errors import NotFound
 
-from coldfront.plugins.freeipa.search import LDAPUserSearch
+from coldfront.plugins.user_sync.search import LDAPUnixUIDSearch
 from coldfront.core.project.models import (ProjectUser, ProjectUserStatusChoice)
 from coldfront.core.allocation.models import (Allocation, AllocationUser, AllocationUserStatusChoice)
-from coldfront.plugins.freeipa.utils import (CLIENT_KTNAME, FREEIPA_NOOP,
-                                             UNIX_GROUP_ATTRIBUTE_NAME,
-                                             AlreadyMemberError,
-                                             NotMemberError,
-                                             check_ipa_group_error)
 
 logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Sync groups in FreeIPA'
+    help = 'Sync groups in NIS'
 
     def add_arguments(self, parser):
-        parser.add_argument("-s", "--sync", help="Sync changes to/from FreeIPA", action="store_true")
+        parser.add_argument("-s", "--sync", help="Sync changes to/from NIS", action="store_true")
         parser.add_argument("-u", "--username", help="Check specific username")
         parser.add_argument("-g", "--group", help="Check specific group")
-        parser.add_argument("-d", "--disable", help="Disable users in ColdFront that are Disabled/NotFound in FreeIPA", action="store_true")
+        parser.add_argument("-d", "--disable", help="Disable users in ColdFront that are Disabled/NotFound in NIS", action="store_true")
         parser.add_argument("-n", "--noop", help="Print commands only. Do not run any commands.", action="store_true")
         parser.add_argument("-x", "--header", help="Include header in output", action="store_true")
 
     def writerow(self, row):
-        try:
-            self.stdout.write('{0: <12}{1: <20}{2: <30}{3}'.format(*row))
-        except BrokenPipeError:
-            devnull = os.open(os.devnull, os.O_WRONLY)
-            os.dup2(devnull, sys.stdout.fileno())
-            sys.exit(1)
+        raise NotImplementedError
 
-    def check_ipa_error(self, res):
+    def check_nis_error(self, res):
         if not res or 'result' not in res:
-            raise ValueError('Missing FreeIPA result')
+            raise ValueError('Missing NIS result')
 
     def add_group(self, user, group, status):
+        # add a group to NIS
         if self.sync and not self.noop:
             try:
                 res = api.Command.group_add_member(group, user=[user.username])
@@ -133,11 +121,11 @@ class Command(BaseCommand):
         except Exception as e:
             logger.error('Failed to update user status: %s - %s', user.username, e)
 
-    def check_user_freeipa(self, user, active_groups, removed_groups):
-        logger.info("Checking FreeIPA user=%s active_groups=%s removed_groups=%s", user.username, active_groups, removed_groups)
+    def check_user_nis(self, user, active_groups, removed_groups):
+        logger.info("Checking NIS user=%s active_groups=%s removed_groups=%s", user.username, active_groups, removed_groups)
 
-        freeipa_groups = []
-        freeipa_status = 'Unknown'
+        nis_groups = []
+        nis_status = 'Unknown'
         try:
             result = self.ifp.GetUserGroups(user.username)
             logger.debug(result)

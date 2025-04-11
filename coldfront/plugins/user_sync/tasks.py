@@ -6,10 +6,7 @@ from django.contrib.auth.models import User
 from coldfront.core.allocation.models import Allocation, AllocationUser
 from coldfront.core.allocation.utils import set_allocation_user_status_to_error
 from coldfront.core.utils.mail import email_template_context, send_admin_email_template
-from coldfront.plugins.user_sync.utils import (UNIX_GROUP_ATTRIBUTE_NAME,
-                                             AlreadyMemberError, ApiError,
-                                             NotMemberError,
-                                             check_ipa_group_error)
+from coldfront.plugins.user_sync.utils import NISClient
 from coldfront.plugins.user_sync.search import LDAPUnixUIDSearch
 
 logger = logging.getLogger(__name__)
@@ -30,12 +27,12 @@ def get_allocation_groups(allocation_user):
 
 
 def check_user_provisioned(username):
-    p = subprocess.run(["getent", "passwd", username], check=False, capture_output=True, encoding='utf-8')
-    if p.returncode == 0:
+    try:
+        user = NISClient().get_user(username)
         return True
-    else:
+    except ValueError as e:
+        logger.error("User %s not found: %s", username, e)
         return False
-
 
 def provision_hpc_user(allocation_user_pk):
     allocation_user = AllocationUser.objects.get(pk=allocation_user_pk)
@@ -43,18 +40,15 @@ def provision_hpc_user(allocation_user_pk):
     if not ldap_info.get('unix_uid'):
         logger.error("No unix_uid found for user %s", allocation_user.user.username)
         # should send a ticket to the helpdesk requesting a unix id for this user
-        return
+        raise ValueError("No unix_uid found for user %s" % allocation_user.user.username)
     elif check_user_provisioned(allocation_user.user.username):
         logger.info("User %s already exists on the cluster", allocation_user.user.username)
-        # "Dear <displayname>:"
-        # Your Tufts Cluster account already exists. 
-        # Are you having issues with login access to the Tufts HPC Cluster? 
-        # Please contact tts-research@tufts.edu and provide as much details as possible.
-        # /cluster/tufts/hpc/tools/rt_scripts/misc/comm/account_creation_comm.sh
+        # this might be called for every resource allocation a user is added to. don't send an email.
         return
     
     else:
-        logger.info("Found unix_uid %s for user %s", ldap_info.get('unix_uid'), allocation_user.user.username)
+        # provision hpc account
+        logger.info("Found unix_uid %s for user %s", ldap_info.get('uid_number'), allocation_user.user.username)
         # provision hpc account with this unix_uid for this user
 
         # creates user in NIS and adds user to slurm
@@ -176,45 +170,4 @@ def remove_user_group(allocation_user_pk):
     if not can_remove_user(allocation_user):
         logger.warning("User is not active or pending or allocation user status is not 'removed'. Will not remove groups")
         return
-
-    groups = get_allocation_groups(allocation_user)
-
-    # Check other active allocations the user is active on for FreeIPA groups
-    # and ensure we don't remove them.
-    user_allocations = Allocation.objects.filter(
-        allocationuser__user=allocation_user.user,
-        allocationuser__status__name='Active',
-        status__name='Active',
-        allocationattribute__allocation_attribute_type__name=UNIX_GROUP_ATTRIBUTE_NAME
-    ).exclude(pk=allocation_user.allocation.pk).distinct()
-
-    exclude = []
-    for a in user_allocations:
-        for g in a.get_attribute_list(UNIX_GROUP_ATTRIBUTE_NAME):
-            if g in groups:
-                exclude.append(g)
-
-    for g in exclude:
-        groups.remove(g)
-
-    if len(groups) == 0:
-        logger.info(
-            "No groups to remove. User may belong to these groups in other active allocations: %s", exclude)
-        return
-
-    for g in groups:
-
-        try:
-            res = api.Command.group_remove_member(
-                g, user=[allocation_user.user.username])
-            check_ipa_group_error(res)
-        except NotMemberError as e:
-            logger.warn("User %s is not a member of group %s",
-                        allocation_user.user.username, g)
-        except Exception as e:
-            logger.error("Failed removing user %s from group %s: %s",
-                         allocation_user.user.username, g, e)
-            set_allocation_user_status_to_error(allocation_user_pk)
-        else:
-            logger.info("Removed user %s from group %s successfully",
-                        allocation_user.user.username, g)
+    pass

@@ -1,52 +1,70 @@
+import subprocess
 import logging
-import os
 
-from django.core.exceptions import ImproperlyConfigured
-from coldfront.core.utils.common import import_from_settings
 
-#CLIENT_KTNAME = import_from_settings('FREEIPA_KTNAME')
-#UNIX_GROUP_ATTRIBUTE_NAME = import_from_settings('FREEIPA_GROUP_ATTRIBUTE_NAME', 'freeipa_group')
-#FREEIPA_NOOP = import_from_settings('FREEIPA_NOOP', False)
+class NISClient:
+    def __init__(self):
+        pass
 
-logger = logging.getLogger(__name__)
+    def get_all_users(self):
+        return self._parse_users(self._get_users_file())
+    
+    def get_user(self, username):
+        users = self.get_all_users()
+        for user in users:
+            if user['username'] == username:
+                return user
+        raise ValueError(f"User {username} not found")
+    
+    def get_group(self, groupname):
+        groups = self.get_all_groups()
+        for group in groups:
+            if group['groupname'] == groupname:
+                return group
+        raise ValueError(f"Group {groupname} not found")
+    
+    def find_groups_for_user(self, username):
+        groups = self.get_all_groups()
+        user_groups = []
+        for group in groups:
+            if username in group['members']:
+                user_groups.append(group)
+        return user_groups
+    
+    def get_all_groups(self):
+        return self._parse_groups(self._get_groups_file())
 
-class ApiError(Exception):
-    pass
+    def _get_users_file(self):
+        return subprocess.run(['ypcat', 'passwd'], capture_output=True, encoding='utf8', check=True).stdout.strip()
 
-class AlreadyMemberError(ApiError):
-    pass
-
-class NotMemberError(ApiError):
-    pass
-
-"""
-try:
-    os.environ["KRB5_CLIENT_KTNAME"] = CLIENT_KTNAME
-    api.bootstrap()
-    api.finalize()
-    api.Backend.rpcclient.connect()
-except Exception as e:
-    logger.error("Failed to initialze FreeIPA lib: %s", e)
-    raise ImproperlyConfigured('Failed to initialze FreeIPA: {0}'.format(e))
-"""
-
-def check_ipa_group_error(res):
-    if not res:
-        raise ValueError('Missing FreeIPA response')
-
-    if res['completed'] == 1:
-        return
-
-    user = res['failed']['member']['user'][0][0]
-    group = res['result']['cn'][0]
-    err_msg = res['failed']['member']['user'][0][1]
-
-    # Check if user is already a member
-    if err_msg == 'This entry is already a member':
-        raise AlreadyMemberError(err_msg)
-
-    # Check if user is not a member
-    if err_msg == 'This entry is not a member':
-        raise NotMemberError(err_msg)
-
-    raise ApiError(err_msg)
+    def _parse_users(self, users_file):
+        userlist = []
+        for i in users_file.splitlines():
+            usermeta = i.split(':')
+            userlist.append({
+                'uid': usermeta[2],
+                'gid': usermeta[3],
+                'username': usermeta[0],
+                'name': usermeta[4],
+                'home': usermeta[5],
+                'shell': usermeta[6],
+                'eligible': '(ineligible)' not in usermeta[4].lower(),
+            })
+        return userlist
+    
+    def _get_groups_file(self):
+        return subprocess.run(['ypcat', 'group'], capture_output=True, encoding='utf8', check=True).stdout.strip()
+    
+    def _parse_groups(self, groups_file):
+        group_list = []
+        for i in groups_file.splitlines():
+            group_line = i.split(':')
+            group_members = []
+            if len(group_line) > 3:
+                group_members  = group_line[3].split(',')
+            group = {'groupname': group_line[0],
+                    'gid': group_line[2],
+                    'members': [m for m in group_members  if len(m) > 0]}
+            if len(group['members']) > 0:
+                group_list.append(group)
+        return group_list
