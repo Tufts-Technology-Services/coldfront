@@ -100,7 +100,8 @@ The following settings are ColdFront specific settings related to the core appli
 | RESEARCH_OUTPUT_ENABLE                 | Enable or disable research outputs. Default True |
 | GRANT_ENABLE                           | Enable or disable grants. Default True           |
 | PUBLICATION_ENABLE                     | Enable or disable publications. Default True     |
-
+| PROJECT_CODE                                 | Specifies a custom internal project identifier. Default False, provide string value to enable.|  
+| PROJECT_CODE_PADDING                         | Defines a optional padding value to be added before the Primary Key section of PROJECT_CODE. Default False, provide integer value to enable.|
 
 ### Database settings
 
@@ -145,7 +146,7 @@ disabled:
 | EMAIL_ADMINS_ON_ALLOCATION_EXPIRE | Setting this to True will send a daily email notification to administrators with a list of allocations that have expired that day. |
 
 ### Plugin settings
-For more info on [ColdFront plugins](../../plugin/existing_plugins/) (Django apps)
+For more info on [ColdFront plugins](plugin/existing_plugins.md) (Django apps)
 
 #### LDAP Auth
 
@@ -154,6 +155,10 @@ For more info on [ColdFront plugins](../../plugin/existing_plugins/) (Django app
     ```
     $ pip install ldap3 django_auth_ldap
     ```
+
+    This uses `django_auth_ldap` therefore ldaps cert paths will be taken from
+    global OS ldap config, `/etc/{ldap,openldap}/ldap.conf` and within `TLS_CACERT`
+
 
 | Name                        | Description                             |
 | :---------------------------|:----------------------------------------|
@@ -164,6 +169,7 @@ For more info on [ColdFront plugins](../../plugin/existing_plugins/) (Django app
 | AUTH_LDAP_BIND_PASSWORD     | The password to use AUTH_LDAP_BIND_DN   |
 | AUTH_LDAP_USER_SEARCH_BASE  | User search base dn                     |
 | AUTH_LDAP_GROUP_SEARCH_BASE | Group search base dn                    |
+| AUTH_COLDFRONT_LDAP_SEARCH_SCOPE | The search scope for Coldfront authentication. Options: SUBTREE or default (ONELEVEL)   |
 | AUTH_LDAP_MIRROR_GROUPS     | Enable/disable mirroring of groups. Default True  |
 | AUTH_LDAP_BIND_AS_AUTHENTICATING_USER     | Authentication will leave the LDAP connection bound as the authenticating user, rather than forcing it to re-bind. Default False    |
 
