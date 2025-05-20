@@ -6,88 +6,50 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
 
 from coldfront.plugins.user_sync.search import LDAPUnixUIDSearch
-from coldfront.core.project.models import (ProjectUser, ProjectUserStatusChoice)
+from coldfront.core.project.models import (Project, ProjectUser, ProjectStatusChoice, ProjectUserStatusChoice)
 from coldfront.core.allocation.models import (Allocation, AllocationUser, AllocationUserStatusChoice)
 
 logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Sync groups in NIS'
+    help = 'Import Users and Groups from NIS to ColdFront'
 
     def add_arguments(self, parser):
-        parser.add_argument("-s", "--sync", help="Sync changes to/from NIS", action="store_true")
-        parser.add_argument("-u", "--username", help="Check specific username")
-        parser.add_argument("-g", "--group", help="Check specific group")
         parser.add_argument("-d", "--disable", help="Disable users in ColdFront that are Disabled/NotFound in NIS", action="store_true")
         parser.add_argument("-n", "--noop", help="Print commands only. Do not run any commands.", action="store_true")
-        parser.add_argument("-x", "--header", help="Include header in output", action="store_true")
-
-    def writerow(self, row):
-        raise NotImplementedError
 
     def check_nis_error(self, res):
         if not res or 'result' not in res:
             raise ValueError('Missing NIS result')
 
-    def add_group(self, user, group, status):
-        # add a group to NIS
-        if self.sync and not self.noop:
-            try:
-                res = api.Command.group_add_member(group, user=[user.username])
-                check_ipa_group_error(res)
-            except AlreadyMemberError as e:
-                logger.warn("User %s is already a member of group %s", user.username, group)
-            except Exception as e:
-                logger.error("Failed adding user %s to group %s: %s", user.username, group, e)
-            else:
-                logger.info("Added user %s to group %s successfully", user.username, group)
+    def add_user(self, username, first_name, last_name, email, 
+                 status, is_staff=False, is_superuser=False):
+        # add a user from NIS
+            user, _ = User.objects.get_or_create(
+                first_name=first_name.strip(),
+                last_name=last_name.strip(),
+                username=username.strip(),
+                email=email.strip()
+            )
+            user.is_active = status
+            user.is_staff = is_staff
+            user.is_superuser = is_superuser
+            user.save()
+    
+    def add_project(self, pi_user, title, status, force_review=False):
+        project_obj, _ = Project.objects.get_or_create(
+            pi=pi_user,
+            title=title,
+            description=f"{title} project",
+            status=ProjectStatusChoice.objects.get(name=status),
+            force_review=force_review
+        )
 
-        row = [
-            'Add',
-            user.username,
-            group,
-            '/'.join([status, 'Active' if user.is_active else 'Inactive']),
-        ]
 
-        self.writerow(row)
-
-    def remove_group(self, user, group, status):
-        if self.sync and not self.noop:
-            try:
-                res = api.Command.group_remove_member(group, user=[user.username])
-                check_ipa_group_error(res)
-            except NotMemberError as e:
-                logger.warn("User %s is not a member of group %s", user.username, group)
-            except Exception as e:
-                logger.error("Failed removing user %s from group %s: %s", user.username, group, e)
-            else:
-                logger.info("Removed user %s from group %s successfully", user.username, group)
-
-        row = [
-            'Remove',
-            user.username,
-            group,
-            '/'.join([status, 'Active' if user.is_active else 'Inactive']),
-        ]
-
-        self.writerow(row)
-
-    def disable_user_in_coldfront(self, user, freeipa_status):
-        row = [
-            'Disable',
-            user.username,
-            '',
-            '/'.join([freeipa_status, 'Active' if user.is_active else 'Inactive']),
-        ]
-        self.writerow(row)
-
-        if not self.sync:
+    def disable_user_in_coldfront(self, user, nis_status):
+        if nis_status:
             return
-
-        if self.noop:
-            return
-
         # Disable user from any active allocations
         inactive_status = AllocationUserStatusChoice.objects.get(name='Removed')
         user_allocations = AllocationUser.objects.filter(user=user)
@@ -109,57 +71,12 @@ class Command(BaseCommand):
         self.sync_user_status(user, active=False)
 
     def sync_user_status(self, user, active=False):
-        if not self.sync:
-            return
-
-        if self.noop:
-            return
-
         try:
             user.is_active = active
             user.save()
         except Exception as e:
             logger.error('Failed to update user status: %s - %s', user.username, e)
 
-    def check_user_nis(self, user, active_groups, removed_groups):
-        logger.info("Checking NIS user=%s active_groups=%s removed_groups=%s", user.username, active_groups, removed_groups)
-
-        nis_groups = []
-        nis_status = 'Unknown'
-        try:
-            result = self.ifp.GetUserGroups(user.username)
-            logger.debug(result)
-            freeipa_groups = [str(x) for x in result]
-
-            users = self.ipa_ldap.search_a_user(user.username, "username_only")
-            if len(users) == 1:
-                freeipa_status = 'Enabled'
-            else:
-                freeipa_status = 'Disabled'
-        except dbus.exceptions.DBusException as e:
-            if 'No such user' in str(e) or 'NotFound' in str(e):
-                logger.info("Skipping user %s not found in FreeIPA", user.username)
-                freeipa_status = 'NotFound'
-            else:
-                logger.error("dbus error failed to find user %s in FreeIPA: %s", user.username, e)
-            return
-
-        if freeipa_status == 'Disabled' and user.is_active:
-            logger.warn('User is active in coldfront but disabled in FreeIPA: %s', user.username)
-            self.sync_user_status(user, active=False)
-        elif freeipa_status == 'Enabled' and not user.is_active:
-            logger.warn('User is not active in coldfront but enabled in FreeIPA: %s', user.username)
-            self.sync_user_status(user, active=True)
-
-        for g in active_groups:
-            if g not in freeipa_groups:
-                logger.info('User %s should be added to freeipa group: %s', user.username, g)
-                self.add_group(user, g, freeipa_status)
-
-        for g in removed_groups:
-            if g in freeipa_groups:
-                logger.info('User %s should be removed from freeipa group: %s', user.username, g)
-                self.remove_group(user, g, freeipa_status)
 
     def process_user(self, user):
         if self.filter_user and self.filter_user != user.username:

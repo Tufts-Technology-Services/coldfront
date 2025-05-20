@@ -1,5 +1,6 @@
 import logging
 import subprocess
+import os
 
 from django.contrib.auth.models import User
 
@@ -8,6 +9,8 @@ from coldfront.core.allocation.utils import set_allocation_user_status_to_error
 from coldfront.core.utils.mail import email_template_context, send_admin_email_template
 from coldfront.plugins.user_sync.utils import NISClient
 from coldfront.plugins.user_sync.search import LDAPUnixUIDSearch
+
+UNIX_GROUP_ATTRIBUTE_NAME = os.getenv('UNIX_GROUP_ATTRIBUTE_NAME', 'gidNumber')
 
 logger = logging.getLogger(__name__)
 
