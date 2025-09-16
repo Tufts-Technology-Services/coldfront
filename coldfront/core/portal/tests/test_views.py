@@ -45,4 +45,3 @@ class CenterSummaryViewTest(PortalViewBaseTest):
         self.assertNotContains(response, "<!-- Start Allocation by Field of Science -->")
         # sanity check for other chart
         self.assertContains(response, "<!-- Start Allocation Charts -->")
-
