@@ -1,6 +1,18 @@
 export interface GenericChartDataset {
   data: Map<string, number | string | boolean | Map<string, number | string>>;
   label: string;
+  type?:
+    | 'line'
+    | 'bar'
+    | 'pie'
+    | 'doughnut'
+    | 'radar'
+    | 'polarArea'
+    | 'bubble'
+    | 'scatter';
+  fill?: boolean;
+  stepped?: boolean;
+  borderColor?: string;
 }
 
 export interface GenericChartData {
