@@ -12,14 +12,14 @@ function createStorageHistoryChart(
   chartData: GenericChartData
 ): void {
   const datasets = chartData.datasets;
-  datasets[0].data.set('type', 'line');
-  datasets[0].data.set('fill', false);
-  datasets[0].data.set('stepped', true);
-  datasets[0].data.set('borderColor', ColorPalette.PRIMARY[0]);
-  datasets[1].data.set('type', 'line');
-  datasets[1].data.set('fill', false);
-  datasets[1].data.set('stepped', false);
-  datasets[1].data.set('borderColor', ColorPalette.PRIMARY[1]);
+  datasets[0]['type'] = 'line';
+  datasets[0]['fill'] = false;
+  datasets[0]['stepped'] = true;
+  datasets[0]['borderColor'] = ColorPalette.PRIMARY[0];
+  datasets[1]['type'] = 'line';
+  datasets[1]['fill'] = false;
+  datasets[1]['stepped'] = false;
+  datasets[1]['borderColor'] = ColorPalette.PRIMARY[1];
 
   new Chart(canvas, {
     type: 'line',
