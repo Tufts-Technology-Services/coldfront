@@ -258,6 +258,7 @@ source = { editable = "." }
 dependencies = [
     { name = "crispy-bootstrap4" },
     { name = "django" },
+    { name = "django-auth-ldap" },
     { name = "django-crispy-forms" },
     { name = "django-environ" },
     { name = "django-filter" },
@@ -270,10 +271,13 @@ dependencies = [
     { name = "django-su" },
     { name = "django-vite" },
     { name = "djangorestframework" },
+    { name = "djangosaml2" },
     { name = "doi2bib" },
     { name = "formencode" },
     { name = "gunicorn" },
     { name = "humanize" },
+    { name = "ldap3" },
+    { name = "psycopg", extra = ["c"] },
     { name = "python-dateutil" },
     { name = "redis" },
 ]
@@ -327,6 +331,7 @@ requires-dist = [
     { name = "cryptography", marker = "extra == 'freeipa'", specifier = "==43.0.3" },
     { name = "dbus-python", marker = "extra == 'freeipa'", specifier = ">=1.4.0" },
     { name = "django", specifier = ">5.2,<6" },
+    { name = "django-auth-ldap", specifier = ">=5.2.0" },
     { name = "django-auth-ldap", marker = "extra == 'ldap'", specifier = ">=5.1.0" },
     { name = "django-crispy-forms", specifier = ">=2.3" },
     { name = "django-environ", specifier = ">=0.12.0" },
@@ -340,15 +345,18 @@ requires-dist = [
     { name = "django-su", specifier = ">=1.0.0" },
     { name = "django-vite", specifier = ">=3.1.0" },
     { name = "djangorestframework", specifier = ">=3.16.0" },
+    { name = "djangosaml2", specifier = ">=1.12.0" },
     { name = "doi2bib", specifier = ">=0.4.0" },
     { name = "formencode", specifier = ">=2.1.1" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "humanize", specifier = ">=4.12.2" },
     { name = "ipaclient", marker = "extra == 'freeipa'", specifier = ">=4.12.2" },
     { name = "kerberos", marker = "extra == 'iquota'", specifier = ">=1.3.1" },
+    { name = "ldap3", specifier = ">=2.9.1" },
     { name = "ldap3", marker = "extra == 'ldap'", specifier = ">=2.9.1" },
     { name = "mozilla-django-oidc", marker = "extra == 'oidc'", specifier = ">=4.0.1" },
     { name = "mysqlclient", marker = "extra == 'mysql'", specifier = ">=2.2.7" },
+    { name = "psycopg", extras = ["c"], specifier = ">=3.3.4" },
     { name = "psycopg2", marker = "extra == 'pg'", specifier = ">=2.9.10" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
     { name = "redis", specifier = ">=5.2.1" },
@@ -443,6 +451,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/43/fa/6d96a0978d19e17b68d634497769987b16c8f4cd0a7a05048bec693caa6b/decorator-5.2.1.tar.gz", hash = "sha256:65f266143752f734b0a7cc83c46f4618af75b8c5911b00ccb61d0ac9b6da0360", size = 56711, upload-time = "2025-02-24T04:41:34.073Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4e/8c/f3147f5c4b73e7550fe5f9352eaa956ae838d5c51eb58e7a25b9f3e2643b/decorator-5.2.1-py3-none-any.whl", hash = "sha256:d316bb415a2d9e2d2b3abcc4084c6502fc09240e292cd76a76afc106a1c8e04a", size = 9190, upload-time = "2025-02-24T04:41:32.565Z" },
+]
+
+[[package]]
+name = "defusedxml"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0f/d5/c66da9b79e5bdb124974bfe172b4daf3c984ebd9c2a06e2b8a4dc7331c72/defusedxml-0.7.1.tar.gz", hash = "sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69", size = 75520, upload-time = "2021-03-08T10:59:26.269Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/6c/aa3f2f849e01cb6a001cd8554a88d4c77c5c1a31c95bdf1cf9301e6d9ef4/defusedxml-0.7.1-py2.py3-none-any.whl", hash = "sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61", size = 25604, upload-time = "2021-03-08T10:59:24.45Z" },
 ]
 
 [[package]]
@@ -642,6 +659,20 @@ wheels = [
 ]
 
 [[package]]
+name = "djangosaml2"
+version = "1.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "defusedxml" },
+    { name = "django" },
+    { name = "pysaml2" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/68/ee/8c0384016c23b80f73f74216b1cfe4a47df11342b91ee9ff3d93c9a84112/djangosaml2-1.12.0.tar.gz", hash = "sha256:41166de18078edb25d42181667bfc2db497c7afd1b8fe854e409d3626ef1938b", size = 57762, upload-time = "2026-02-17T22:53:46.357Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/86/46/b1d300eb971a8a3f53e16b524f51794986208684d3612d637928db120079/djangosaml2-1.12.0-py2.py3-none-any.whl", hash = "sha256:242cbc881a770bc2ac0550e067884a131cb0da9b2055e1ff6f7b07fa5655b903", size = 67565, upload-time = "2026-02-17T22:53:44.73Z" },
+]
+
+[[package]]
 name = "dnspython"
 version = "2.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -661,6 +692,15 @@ dependencies = [
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/a0/6dd085ee0856e8c0ea39c5851bdf6fc72da392f734dca66b070b89dd1bf8/doi2bib-0.4.0-py3-none-any.whl", hash = "sha256:09401f766b1533c6d17d428ba26c65433009478f1b8d67a2b7f32871e9e8f90d", size = 6047, upload-time = "2020-07-17T00:23:31.816Z" },
+]
+
+[[package]]
+name = "elementpath"
+version = "4.8.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ac/41/afdd82534c80e9675d1c51dc21d0889b72d023bfe395a2f5a44d751d3a73/elementpath-4.8.0.tar.gz", hash = "sha256:5822a2560d99e2633d95f78694c7ff9646adaa187db520da200a8e9479dc46ae", size = 358528, upload-time = "2025-03-03T20:51:08.397Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/45/95/615af832e7f507fe5ce4562b4be1bd2fec080c4ff6da88dcd0c2dbfca582/elementpath-4.8.0-py3-none-any.whl", hash = "sha256:5393191f84969bcf8033b05ec4593ef940e58622ea13cefe60ecefbbf09d58d9", size = 243271, upload-time = "2025-03-03T20:51:03.027Z" },
 ]
 
 [[package]]
@@ -1212,6 +1252,30 @@ wheels = [
 ]
 
 [[package]]
+name = "psycopg"
+version = "3.3.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "tzdata", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/db/2f/cb91e5502ec9de1de6f1b76cfbf69531932725361168bb06963620c77e2e/psycopg-3.3.4.tar.gz", hash = "sha256:e21207764952cff81b6b8bdacad9a3939f2793367fdac2987b3aac36a651b5bc", size = 165799, upload-time = "2026-05-01T23:31:55.179Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5c/e0/7b3dee031daae7743609ce3c746565d4a3ed7c2c186479eb48e34e838c64/psycopg-3.3.4-py3-none-any.whl", hash = "sha256:b6bbc25ccf05c8fad3b061d9db2ef0909a555171b84b07f29458a447253d679a", size = 213001, upload-time = "2026-05-01T23:20:50.816Z" },
+]
+
+[package.optional-dependencies]
+c = [
+    { name = "psycopg-c", marker = "implementation_name != 'pypy'" },
+]
+
+[[package]]
+name = "psycopg-c"
+version = "3.3.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/21/7c/c08364f2eab2913e4068b3b955d963e7a3491986a85429990969525def30/psycopg_c-3.3.4.tar.gz", hash = "sha256:ed8106128b2d04359c185fc9641b4409abfce4d0b6fb1d1ff6800646e27f1a22", size = 647111, upload-time = "2026-05-01T23:31:58.032Z" }
+
+[[package]]
 name = "psycopg2"
 version = "2.9.11"
 source = { registry = "https://pypi.org/simple" }
@@ -1277,12 +1341,41 @@ wheels = [
 ]
 
 [[package]]
+name = "pyopenssl"
+version = "24.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5d/70/ff56a63248562e77c0c8ee4aefc3224258f1856977e0c1472672b62dadb8/pyopenssl-24.2.1.tar.gz", hash = "sha256:4247f0dbe3748d560dcbb2ff3ea01af0f9a1a001ef5f7c4c647956ed8cbf0e95", size = 184323, upload-time = "2024-07-20T17:26:31.252Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/dd/e0aa7ebef5168c75b772eda64978c597a9129b46be17779054652a7999e4/pyOpenSSL-24.2.1-py3-none-any.whl", hash = "sha256:967d5719b12b243588573f39b0c677637145c7a1ffedcd495a487e58177fbb8d", size = 58390, upload-time = "2024-07-20T17:26:29.057Z" },
+]
+
+[[package]]
 name = "pyparsing"
 version = "3.2.5"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f2/a5/181488fc2b9d093e3972d2a472855aae8a03f000592dbfce716a512b3359/pyparsing-3.2.5.tar.gz", hash = "sha256:2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6", size = 1099274, upload-time = "2025-09-21T04:11:06.277Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/5e/1aa9a93198c6b64513c9d7752de7422c06402de6600a8767da1524f9570b/pyparsing-3.2.5-py3-none-any.whl", hash = "sha256:e38a4f02064cf41fe6593d328d0512495ad1f3d8a91c4f73fc401b3079a59a5e", size = 113890, upload-time = "2025-09-21T04:11:04.117Z" },
+]
+
+[[package]]
+name = "pysaml2"
+version = "7.5.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+    { name = "defusedxml" },
+    { name = "pyopenssl" },
+    { name = "python-dateutil" },
+    { name = "requests" },
+    { name = "xmlschema" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6a/a0/24b70dbe8b6f0f6f6ef21f0f007526ed6c5c3d0de6c20bff2a261c2ec0d9/pysaml2-7.5.4.tar.gz", hash = "sha256:b827dcaab73c4f7fe001c945401eb442cfda5d22001cea50c20c138e9adeffea", size = 334172, upload-time = "2025-10-07T20:06:03.752Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/79/21/c95583bfce176ebf5e6a0655f1678502de970f3a6d17dee65852906b2d80/pysaml2-7.5.4-py3-none-any.whl", hash = "sha256:9cf4310a7b7627440b3f9f94126f2102f8472607878aa22aeae9d6831bb2af47", size = 420474, upload-time = "2025-10-07T20:06:02.094Z" },
 ]
 
 [[package]]
@@ -1680,4 +1773,16 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/79/3e/c0bdc27cf06f4e47680bd5803a07cb3dfd17de84cde92dd217dcb9e05253/wcmatch-10.1.tar.gz", hash = "sha256:f11f94208c8c8484a16f4f48638a85d771d9513f4ab3f37595978801cb9465af", size = 117421, upload-time = "2025-06-22T19:14:02.49Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/eb/d8/0d1d2e9d3fabcf5d6840362adcf05f8cf3cd06a73358140c3a97189238ae/wcmatch-10.1-py3-none-any.whl", hash = "sha256:5848ace7dbb0476e5e55ab63c6bbd529745089343427caa5537f230cc01beb8a", size = 39854, upload-time = "2025-06-22T19:14:00.978Z" },
+]
+
+[[package]]
+name = "xmlschema"
+version = "2.5.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elementpath" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/59/af/42e9e773eaa6bc8e8c322f93c75454b0d370979048b250bfef7786ff26ec/xmlschema-2.5.1.tar.gz", hash = "sha256:4f7497de6c8b6dc2c28ad7b9ed6e21d186f4afe248a5bea4f54eedab4da44083", size = 539267, upload-time = "2023-12-19T15:51:57.663Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/2a/c2bc97fd20efe65cfcfc21666d1b0213969133d37ea093761d264d9ed9f8/xmlschema-2.5.1-py3-none-any.whl", hash = "sha256:ec2b2a15c8896c1fcd14dcee34ca30032b99456c3c43ce793fdb9dca2fb4b869", size = 395065, upload-time = "2023-12-19T15:51:53.136Z" },
 ]

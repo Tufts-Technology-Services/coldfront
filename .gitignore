@@ -23,3 +23,7 @@ db.json
 .devcontainer/*
 .bin/*
 node_modules
+*.log
+reports.py
+coldfront/vast.py
+
