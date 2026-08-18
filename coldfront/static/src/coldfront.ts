@@ -14,6 +14,7 @@ import { initHtmx } from './htmx';
 import { initBootstrap } from './bs';
 import { getCookie } from './util';
 import jQuery from 'jquery';
+import { initStorageHistoryChart } from './charts/storageAllocationHistoryChart';
 
 Object.assign(window, {
   getCookie: function (name: string) {
@@ -21,6 +22,7 @@ Object.assign(window, {
   },
   $: jQuery,
   jQuery,
+  coldfront: { initStorageHistoryChart: initStorageHistoryChart },
 });
 
 function initDocument(): void {
