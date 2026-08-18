@@ -1,5 +1,14 @@
+export interface GenericChartDataset {
+  data: Map<string, number | string | boolean | Map<string, number | string>>;
+  label: string;
+}
+
 export interface GenericChartData {
-  data: Map<string, [number | string, number | string]>;
+  datasets: [
+    GenericChartDataset,
+    GenericChartDataset,
+    ...GenericChartDataset[],
+  ];
 }
 
 export function renderGenericChart(

@@ -11,29 +11,26 @@ function createStorageHistoryChart(
   canvas: HTMLCanvasElement,
   chartData: GenericChartData
 ): void {
-  const labels = chartData.data.get('labels');
-  const quotaHistory = {
-    label: 'Quota',
-    data: chartData.data.get('quota_history'),
-    fill: false,
-    stepped: true,
-    borderColor: ColorPalette.PRIMARY[0],
-  };
-  const usageHistory = {
-    label: 'Usage',
-    data: chartData.data.get('usage_history'),
-    fill: false,
-    stepped: false,
-    borderColor: ColorPalette.PRIMARY[1],
-  };
+  const datasets = chartData.datasets;
+  datasets[0].data.set('type', 'line');
+  datasets[0].data.set('fill', false);
+  datasets[0].data.set('stepped', true);
+  datasets[0].data.set('borderColor', ColorPalette.PRIMARY[0]);
+  datasets[1].data.set('type', 'line');
+  datasets[1].data.set('fill', false);
+  datasets[1].data.set('stepped', false);
+  datasets[1].data.set('borderColor', ColorPalette.PRIMARY[1]);
+
   new Chart(canvas, {
     type: 'line',
     data: {
-      labels: labels,
-      datasets: [quotaHistory, usageHistory],
+      datasets: datasets,
     },
     options: {
       responsive: true,
+      scales: {
+        x: { type: 'time' },
+      },
       interaction: {
         intersect: false,
         axis: 'x',
