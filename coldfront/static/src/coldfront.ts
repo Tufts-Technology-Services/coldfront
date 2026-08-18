@@ -14,6 +14,7 @@ import { initHtmx } from './htmx';
 import { getCookie } from './util';
 import jQuery from 'jquery';
 import { initStorageHistoryChart } from './charts/storageAllocationHistoryChart';
+import 'chartjs-adapter-date-fns';
 
 Object.assign(window, {
   getCookie: function (name: string) {
