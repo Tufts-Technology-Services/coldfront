@@ -84,6 +84,10 @@ pg = [
     "psycopg2>=2.9.10",
 ]
 
+tufts = [
+    "django-redis>=7.0.0",
+]
+
 [dependency-groups]
 dev = [
     "django-sslserver>=0.22",

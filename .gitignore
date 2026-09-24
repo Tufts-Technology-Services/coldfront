@@ -26,4 +26,5 @@ node_modules
 *.log
 reports.py
 coldfront/vast.py
-
+coldfront_settings/*
+static/*
