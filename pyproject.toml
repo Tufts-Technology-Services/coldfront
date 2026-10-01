@@ -24,6 +24,10 @@ classifiers = [
     'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
 ]
 dependencies = [
+    # Imported directly by coldfront.core.publication.views, which uses the 1.x API
+    # (bibtexparser.bibdatabase) that 2.x removed. It otherwise arrives unbounded via
+    # doi2bib, so without this an upgrade silently pulls 2.x and breaks the URLconf.
+    "bibtexparser>=1.4,<2",
     "crispy-bootstrap5>=2025.6",
     "django>5.2,<6",
     "django-auth-ldap>=5.2.0",
