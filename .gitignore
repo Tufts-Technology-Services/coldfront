@@ -28,3 +28,5 @@ reports.py
 coldfront/vast.py
 coldfront_settings/*
 static/*
+.claude
+claude.md

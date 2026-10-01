@@ -84,8 +84,18 @@ pg = [
     "psycopg2>=2.9.10",
 ]
 
+# Tufts deployment extras. They are published only as git repos, hence the direct references (which require
+# tool.hatch.metadata.allow-direct-references below).
 tufts = [
     "django-redis>=7.0.0",
+    "tufts-coldfront-plugins@git+https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git",
+    "coldfront-storage-plugin@git+https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git@feature-pyinfra",
+    # app: account_signup. Private repo: ssh remote, so installing needs a GitHub ssh key.
+    "coldfront-account-signup-plugin@git+ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git",
+    "coldfront-allocation-blueprint@git+https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git",
+    "coldfront-user-management-plugin@git+https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git",
+    # app: coldfront_billing. Private repo under the TuftsRT org: ssh remote.
+    "coldfront-billing@git+ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git",
 ]
 
 [dependency-groups]
@@ -106,6 +116,10 @@ docs = [
     "pygments",
     "pymdown-extensions",
 ]
+
+[tool.hatch.metadata]
+# The tufts extra pulls plugins straight from git; hatchling rejects those otherwise.
+allow-direct-references = true
 
 [[tool.uv.index]]
 name = "testpypi"
