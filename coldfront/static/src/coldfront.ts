@@ -11,19 +11,38 @@ import { initForm } from './form';
 import { initDataTable } from './dataTable';
 import { initCharts } from './charts';
 import { initHtmx } from './htmx';
-import { initBootstrap } from './bs';
+import {
+  initBootstrap,
+  initCollapse,
+  initPopovers,
+  initTooltips,
+  showModal,
+  hideModal,
+  showPopover,
+  hidePopover,
+} from './bs';
 import { getCookie } from './util';
 import jQuery from 'jquery';
 import { initStorageHistoryChart } from './charts/storageAllocationHistoryChart';
 import 'chartjs-adapter-date-fns';
 
+// Helpers for page and plugin scripts, which can't import from this bundle
 Object.assign(window, {
   getCookie: function (name: string) {
-    getCookie(name);
+    return getCookie(name);
   },
   $: jQuery,
   jQuery,
-  coldfront: { initStorageHistoryChart: initStorageHistoryChart },
+  coldfront: {
+    initStorageHistoryChart,
+    initPopovers,
+    initTooltips,
+    initCollapse,
+    showModal,
+    hideModal,
+    showPopover,
+    hidePopover,
+  },
 });
 
 function initDocument(): void {
