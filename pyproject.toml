@@ -131,6 +131,12 @@ explicit = true
 
 [tool.uv]
 required-version = ">=0.9.13" # Make sure this version matches what is in the Dockerfile
+# tufts-coldfront-plugins depends on coldfront-storage-plugin at its default branch, which
+# conflicts with the feature-pyinfra branch deployed on coldfront-p01. Force the deployed
+# branch (and its extras) everywhere, since uv allows only one URL per package.
+override-dependencies = [
+    "coldfront-storage-plugin[starfish,vast,truenas,pyinfra]@git+https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git@feature-pyinfra",
+]
 
 [tool.ruff]
 line-length = 120
