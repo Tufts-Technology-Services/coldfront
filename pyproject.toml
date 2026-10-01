@@ -89,7 +89,9 @@ pg = [
 tufts = [
     "django-redis>=7.0.0",
     "tufts-coldfront-plugins@git+https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git",
-    "coldfront-storage-plugin@git+https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git@feature-pyinfra",
+    # All four of the storage plugin's extras; it defines no "all" extra, so they are listed out.
+    # starfish/vast/truenas pull in the storage-backend API clients.
+    "coldfront-storage-plugin[starfish,vast,truenas,pyinfra]@git+https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git@feature-pyinfra",
     # app: account_signup. Private repo: ssh remote, so installing needs a GitHub ssh key.
     "coldfront-account-signup-plugin@git+ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git",
     "coldfront-allocation-blueprint@git+https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git",
