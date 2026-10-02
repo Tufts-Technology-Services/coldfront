@@ -605,8 +605,8 @@ source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocat
 
 [[package]]
 name = "coldfront-billing"
-version = "2.1.0"
-source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#bc932a4f7b02fd2674cc2e34f514a81bd4d26e15" }
+version = "3.0.0"
+source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#8331ba3548d80085e2121266d1728d6f1d9c95dd" }
 dependencies = [
     { name = "coldfront" },
     { name = "email-validator" },
@@ -954,14 +954,14 @@ sdist = { url = "https://files.pythonhosted.org/packages/d3/cf/5d5bdaff569468dba
 
 [[package]]
 name = "django-upgrade"
-version = "1.32.0"
+version = "1.33.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "tokenize-rt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ec/8d/1fcccfcf5d023f23b70fa8560b03439faccb9c825a624c85e60cdc89b0b2/django_upgrade-1.32.0.tar.gz", hash = "sha256:bc0e675aa4f8269fdec403367afa287ab593c7e350d5c09458b836906c914849", size = 44538, upload-time = "2026-08-17T23:29:32.655Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/22/d1/ab11776fc01054ba43a68850cbaa7c91373969720064af734cd04f7a1241/django_upgrade-1.33.0.tar.gz", hash = "sha256:fc3426f051a972389e81b40dfd7ea9465d9e178e61e6f9255a8e895978556ba2", size = 45778, upload-time = "2026-10-02T20:17:36.41Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/0f/e06ffe9e58a64cbd99041eca521d617a2b9768aa6ba32213dacd7c7edc60/django_upgrade-1.32.0-py3-none-any.whl", hash = "sha256:cae8d5535a009aca565610204d138cf5f74f809dd43f21cc5b313ca3d516d6a7", size = 82146, upload-time = "2026-08-17T23:29:31.413Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/ed/382bdb8c2be54b3ad6b761d87433d4e89a8ee957cef84a96e6f754476fc0/django_upgrade-1.33.0-py3-none-any.whl", hash = "sha256:47680dc3132832450674c1d76d176f8715b8d6a94d34137e5f32711ae164fc3d", size = 83349, upload-time = "2026-10-02T20:17:34.949Z" },
 ]
 
 [[package]]
@@ -1051,7 +1051,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -2458,7 +2458,7 @@ dependencies = [
 [[package]]
 name = "tufts-coldfront-plugins"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#c16d0159d9ba40c16d067ec102f09538a4456ca6" }
+source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#ae527611480b6e3ffaad8c787d58bc40eb3debcb" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-billing" },
