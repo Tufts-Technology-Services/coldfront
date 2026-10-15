@@ -102,6 +102,7 @@ tufts = [
     "coldfront-user-management-plugin@git+https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git",
     # app: coldfront_billing. Private repo under the TuftsRT org: ssh remote.
     "coldfront-billing@git+ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git",
+    "coldfront-ticketing@git+https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git",
 ]
 
 [dependency-groups]

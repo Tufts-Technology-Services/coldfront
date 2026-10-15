@@ -496,6 +496,7 @@ tufts = [
     { name = "coldfront-allocation-blueprint" },
     { name = "coldfront-billing" },
     { name = "coldfront-storage-plugin", extra = ["pyinfra", "starfish", "truenas", "vast"] },
+    { name = "coldfront-ticketing" },
     { name = "coldfront-user-management-plugin" },
     { name = "django-redis" },
     { name = "tufts-coldfront-plugins" },
@@ -527,6 +528,7 @@ requires-dist = [
     { name = "coldfront-allocation-blueprint", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git" },
     { name = "coldfront-billing", marker = "extra == 'tufts'", git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git" },
     { name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas", "pyinfra"], marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" },
+    { name = "coldfront-ticketing", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git" },
     { name = "coldfront-user-management-plugin", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git" },
     { name = "crispy-bootstrap5", specifier = ">=2025.6" },
     { name = "cryptography", marker = "extra == 'freeipa'", specifier = ">=43.0.3" },
@@ -634,6 +636,16 @@ truenas = [
 ]
 vast = [
     { name = "vast-api-client" },
+]
+
+[[package]]
+name = "coldfront-ticketing"
+version = "0.1.0"
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#8d7c584d89875c0654ce676f57ef77e6a67d74a4" }
+dependencies = [
+    { name = "coldfront" },
+    { name = "coldfront-utils" },
+    { name = "requests" },
 ]
 
 [[package]]
@@ -1051,7 +1063,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
