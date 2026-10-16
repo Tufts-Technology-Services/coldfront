@@ -499,7 +499,7 @@ tufts = [
     { name = "coldfront-account-signup-plugin" },
     { name = "coldfront-allocation-blueprint" },
     { name = "coldfront-billing" },
-    { name = "coldfront-storage-plugin", extra = ["pyinfra", "starfish", "truenas", "vast"] },
+    { name = "coldfront-storage-plugin", extra = ["starfish", "truenas", "vast"] },
     { name = "coldfront-ticketing" },
     { name = "coldfront-user-management-plugin" },
     { name = "django-redis" },
@@ -596,10 +596,10 @@ docs = [
 [[package]]
 name = "coldfront-account-signup-plugin"
 version = "0.1.0"
-source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#dcb9400aee20dedfb6942cbe8c3e3f69d19938bf" }
+source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#c647b4d11011e9550b4122a007c97de7b0d0576a" }
 dependencies = [
     { name = "coldfront" },
-    { name = "coldfront-utils" },
+    { name = "coldfront-utils", extra = ["ad"] },
     { name = "grouper-client" },
     { name = "pyinfra" },
     { name = "vast-api-client" },
@@ -613,7 +613,7 @@ source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocat
 [[package]]
 name = "coldfront-billing"
 version = "3.0.0"
-source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#6bf054a9414114ed860347bd6f8d0dd7affaebb4" }
+source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#26199d77e38d9668b25512e0ee05b9f57fe0eafc" }
 dependencies = [
     { name = "coldfront" },
     { name = "email-validator" },
@@ -623,16 +623,14 @@ dependencies = [
 [[package]]
 name = "coldfront-storage-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#910b43b873d9e0cc2573102b07fe1cec07de9b6c" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#1a0b11a8a67a348839aae12b55eb773b00e0a084" }
 dependencies = [
     { name = "coldfront" },
-    { name = "coldfront-utils" },
+    { name = "coldfront-utils", extra = ["ad"] },
+    { name = "pyinfra" },
 ]
 
 [package.optional-dependencies]
-pyinfra = [
-    { name = "pyinfra" },
-]
 starfish = [
     { name = "starfish-api-client" },
 ]
@@ -646,7 +644,7 @@ vast = [
 [[package]]
 name = "coldfront-ticketing"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#8d7c584d89875c0654ce676f57ef77e6a67d74a4" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#ecf3eed2f48cb187bb8c54dfa08aa29cd0d1d31d" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
@@ -663,10 +661,15 @@ dependencies = [
 
 [[package]]
 name = "coldfront-utils"
-version = "0.0.1"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#121cb7ad7e192b562ce5fb6de8f72826d2ee0626" }
+version = "0.1.0"
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#3ab8377ad04a9117840566ee371af38a44e6e525" }
 dependencies = [
     { name = "coldfront" },
+]
+
+[package.optional-dependencies]
+ad = [
+    { name = "coldfront", extra = ["ldap"] },
 ]
 
 [[package]]
@@ -2676,7 +2679,7 @@ source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-p
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-billing" },
-    { name = "coldfront-storage-plugin", extra = ["pyinfra", "starfish", "truenas", "vast"] },
+    { name = "coldfront-storage-plugin", extra = ["starfish", "truenas", "vast"] },
     { name = "coldfront-utils" },
     { name = "djangosaml2" },
     { name = "pyinfra" },
