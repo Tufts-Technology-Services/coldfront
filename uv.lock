@@ -7,7 +7,7 @@ resolution-markers = [
 ]
 
 [manifest]
-overrides = [{ name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas", "pyinfra"], git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" }]
+overrides = [{ name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas"], git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" }]
 
 [[package]]
 name = "annotated-types"
@@ -532,7 +532,7 @@ requires-dist = [
     { name = "coldfront-account-signup-plugin", marker = "extra == 'tufts'", git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git" },
     { name = "coldfront-allocation-blueprint", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git" },
     { name = "coldfront-billing", marker = "extra == 'tufts'", git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git" },
-    { name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas", "pyinfra"], marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" },
+    { name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas"], marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" },
     { name = "coldfront-ticketing", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git" },
     { name = "coldfront-user-management-plugin", marker = "extra == 'tufts'", git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git" },
     { name = "crispy-bootstrap5", specifier = ">=2025.6" },
