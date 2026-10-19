@@ -596,7 +596,7 @@ docs = [
 [[package]]
 name = "coldfront-account-signup-plugin"
 version = "0.1.0"
-source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#c647b4d11011e9550b4122a007c97de7b0d0576a" }
+source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#9dd3ac66729a8c29d5c3dd7661c6701de8b298a3" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils", extra = ["ad"] },
@@ -644,7 +644,7 @@ vast = [
 [[package]]
 name = "coldfront-ticketing"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#ecf3eed2f48cb187bb8c54dfa08aa29cd0d1d31d" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#5f6da590ff61b8ce9d5654d2d928793b847c3cce" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
@@ -662,7 +662,7 @@ dependencies = [
 [[package]]
 name = "coldfront-utils"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#3ab8377ad04a9117840566ee371af38a44e6e525" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#05751fba4c02a6722a3b2587e9970e2060fc7792" }
 dependencies = [
     { name = "coldfront" },
 ]
