@@ -613,7 +613,7 @@ source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocat
 [[package]]
 name = "coldfront-billing"
 version = "3.0.0"
-source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#26199d77e38d9668b25512e0ee05b9f57fe0eafc" }
+source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#2581b1cab33c3b91929dbe8421e715a15fbc2026" }
 dependencies = [
     { name = "coldfront" },
     { name = "email-validator" },
