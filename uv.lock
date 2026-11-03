@@ -565,7 +565,7 @@ vast = [
 [[package]]
 name = "coldfront-ticketing"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#5f6da590ff61b8ce9d5654d2d928793b847c3cce" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-ticketing-plugin.git#758741129d32e2d8f9d0d40874ac8bd61d41a54c" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
