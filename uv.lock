@@ -534,7 +534,7 @@ source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocat
 [[package]]
 name = "coldfront-billing"
 version = "3.0.0"
-source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#5c1e02a9701bb98d631a9bb9ac956072a63f2229" }
+source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#38b7a5077f2aa2fae0d8eb65f8f698f6c893699a" }
 dependencies = [
     { name = "coldfront" },
     { name = "email-validator" },
@@ -583,7 +583,7 @@ dependencies = [
 [[package]]
 name = "coldfront-utils"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#6d697f7c70ac3264dbe731969b4d916d6459ca0a" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git#b52fb93d03ae617ebfb09d3b8e13b38bdb12e3e9" }
 dependencies = [
     { name = "coldfront" },
 ]
@@ -2256,7 +2256,7 @@ dependencies = [
 [[package]]
 name = "tufts-coldfront-plugins"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#81209be6f8b03eebdde5a76dc319f811f79902f0" }
+source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#fcd48ae38e8234b9aa49706b1aa6617ecdea2109" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-billing" },
