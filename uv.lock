@@ -2334,7 +2334,7 @@ dependencies = [
 [[package]]
 name = "tufts-coldfront-plugins"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#801c373433c8fc318529b279aacd45f92d1328fe" }
+source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#d49ccf286c92554b52558ba3cbba9bb69ad962c9" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-billing" },
