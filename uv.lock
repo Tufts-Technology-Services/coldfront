@@ -517,7 +517,7 @@ docs = [
 [[package]]
 name = "coldfront-account-signup-plugin"
 version = "0.1.0"
-source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#0165fa0b18b10dfb207b86eba11516b811fd05c8" }
+source = { git = "ssh://git@github.com/Tufts-Technology-Services/coldfront-account-signup-plugin.git#57d0c6afbd8a6f4620320b1f2c12fb31467b1506" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils", extra = ["ad"] },
@@ -578,7 +578,7 @@ dependencies = [
 [[package]]
 name = "coldfront-user-management-plugin"
 version = "0.0.1"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git#d7750b1cac3baef2e1a8b18ebb73a3f4ba322960" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git#870991dca1e31ae250923084b1ce4618216c736c" }
 dependencies = [
     { name = "coldfront" },
 ]
@@ -1188,8 +1188,8 @@ wheels = [
 
 [[package]]
 name = "grouper-client"
-version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/hpc-grouper-client.git#ea592b0a7dbeb10bc94ad5e2360a1c1ad84bf281" }
+version = "0.2.1"
+source = { git = "https://github.com/Tufts-Technology-Services/hpc-grouper-client.git#d4d0e3d877cdd2a1abd3205e06d67ef66b8030b8" }
 dependencies = [
     { name = "cryptography" },
     { name = "pydantic" },
