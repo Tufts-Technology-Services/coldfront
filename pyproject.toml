@@ -135,8 +135,11 @@ required-version = ">=0.9.13" # Make sure this version matches what is in the Do
 # tufts-coldfront-plugins depends on coldfront-storage-plugin at its default branch, which
 # conflicts with the feature-pyinfra branch deployed on coldfront-p01. Force the deployed
 # branch (and its extras) everywhere, since uv allows only one URL per package.
+# coldfront-utils likewise: the billing plugin pins a release tag, the other plugins the default
+# branch, so pin the release here for all of them. A new coldfront-utils release means bumping this tag.
 override-dependencies = [
     "coldfront-storage-plugin[starfish,vast,truenas]@git+https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git@feature-pyinfra",
+    "coldfront-utils@git+https://github.com/Tufts-Technology-Services/coldfront-utils.git@v0.3.1",
 ]
 
 [tool.ruff]
