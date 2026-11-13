@@ -540,9 +540,10 @@ dependencies = [
 [[package]]
 name = "coldfront-billing"
 version = "3.0.0"
-source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#943c163ac72b70b33f2a32b175ad549fefd1b038" }
+source = { git = "ssh://git@github.com/TuftsRT/coldfront-billing-plugin.git#74b8699bee098a5264957a0d2636ea793ab0238f" }
 dependencies = [
     { name = "coldfront" },
+    { name = "coldfront-utils" },
     { name = "email-validator" },
     { name = "pydantic" },
 ]
