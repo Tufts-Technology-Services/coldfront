@@ -553,7 +553,7 @@ dependencies = [
 [[package]]
 name = "coldfront-rest-api-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#2416e77214ec18a1af4490f336a3efe71b54989b" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#797f7e601ba950b692fd55119bd3204b0e07990f" }
 dependencies = [
     { name = "coldfront" },
     { name = "django-filter" },
