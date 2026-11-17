@@ -5,7 +5,7 @@ requires-python = ">=3.12"
 [manifest]
 overrides = [
     { name = "coldfront-storage-plugin", extras = ["starfish", "vast", "truenas"], git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra" },
-    { name = "coldfront-utils", git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git?rev=v0.3.1" },
+    { name = "coldfront-utils", git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git?rev=v0.4.0" },
 ]
 
 [[package]]
@@ -553,9 +553,10 @@ dependencies = [
 [[package]]
 name = "coldfront-rest-api-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#797f7e601ba950b692fd55119bd3204b0e07990f" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#483db649b18529496a84f855927788d6336abb74" }
 dependencies = [
     { name = "coldfront" },
+    { name = "coldfront-utils" },
     { name = "django-filter" },
     { name = "djangorestframework" },
 ]
@@ -563,7 +564,7 @@ dependencies = [
 [[package]]
 name = "coldfront-storage-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#238da6e75f9de3f5d419aa965e436dbf76dfa8d2" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#acc08e0913c699532ca74a38b39890358712a6e4" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
@@ -601,8 +602,8 @@ dependencies = [
 
 [[package]]
 name = "coldfront-utils"
-version = "0.3.1"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git?rev=v0.3.1#3ec711dc3ed24174c503e7b6a5ea3a9e638876bf" }
+version = "0.4.0"
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-utils.git?rev=v0.4.0#e0a7e62b0104c4b1093f0e1a29ac93aff97421bd" }
 dependencies = [
     { name = "coldfront" },
 ]
