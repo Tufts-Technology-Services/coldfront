@@ -534,7 +534,7 @@ dependencies = [
 [[package]]
 name = "coldfront-allocation-blueprint"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git#6502975e1700d0004e3b75875990eb74c52be167" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git#500a43507deac3ce4fd31c22bd4c07c0791652f4" }
 dependencies = [
     { name = "coldfront" },
 ]
@@ -564,7 +564,7 @@ dependencies = [
 [[package]]
 name = "coldfront-storage-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#f050711136f26ddbb0e0e785ce710557967af783" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-storage-plugin.git?rev=feature-pyinfra#29c990c4dde77f2f8760da028dd161f1bba194e8" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
@@ -595,7 +595,7 @@ dependencies = [
 [[package]]
 name = "coldfront-user-management-plugin"
 version = "0.0.1"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git#30ef1edd15c05d0e0b1f866e28e6d07134d5ccdb" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-user-management-plugin.git#71894e57eae4e36333d5e177aa2fb001b898da66" }
 dependencies = [
     { name = "coldfront" },
 ]
@@ -2348,7 +2348,7 @@ dependencies = [
 [[package]]
 name = "tufts-coldfront-plugins"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#81b25c6d860f0e3049e288ead9cf6375c811a74c" }
+source = { git = "https://github.com/Tufts-Technology-Services/tufts-coldfront-plugins.git#afea9f1837bec8796ee631e79c3fda34fc6789f1" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-billing" },
