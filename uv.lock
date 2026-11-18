@@ -553,7 +553,7 @@ dependencies = [
 [[package]]
 name = "coldfront-rest-api-plugin"
 version = "0.1.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#483db649b18529496a84f855927788d6336abb74" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-rest-api-plugin.git#ade98b605b35f02a19fd4ef7a95a0d935642e8b9" }
 dependencies = [
     { name = "coldfront" },
     { name = "coldfront-utils" },
