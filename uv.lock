@@ -534,7 +534,7 @@ dependencies = [
 [[package]]
 name = "coldfront-allocation-blueprint"
 version = "0.2.0"
-source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git#4d5e28524ebea96860172723e7538d831c79811e" }
+source = { git = "https://github.com/Tufts-Technology-Services/coldfront-allocation-blueprint.git#6502975e1700d0004e3b75875990eb74c52be167" }
 dependencies = [
     { name = "coldfront" },
 ]
